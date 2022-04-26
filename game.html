@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #container {
+            height: 900px;
+            width: 1900px;
+            outline: 1px solid rgb(255, 255, 255);
+            position: relative;
+        }
+
+        #guy {
+            position: absolute;
+            height: 75px;
+            width: 75px;
+            outline: 1px solid rgb(255, 255, 255);
+            background-color: white;
+            left: 0;
+        }
+
+        body {
+            background-color: black;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container">
+        <div id="guy">
+
+        </div>
+    </div>
+
+    <script>
+
+        var speed = 10;
+        var guy = document.getElementById('guy');
+        var container = document.getElementById('container');
+
+        var guyLeft = 0;
+        var guyTop = 0;
+        var keysDepressed = {
+            up: false,
+            down: false,
+            left: false,
+            right: false,
+            shift: false
+        };
+
+        function resetDepressedKeys(event) {
+            if (event.keyCode == 39) {
+                keysDepressed.right = false;
+            }
+
+
+            if (event.keyCode == 38) {
+                keysDepressed.up = false;
+            }
+
+
+            if (event.keyCode == 37) {
+                keysDepressed.left = false;
+            }
+
+
+            if (event.keyCode == 40) {
+                keysDepressed.down = false;
+            }
+            if (event.keyCode == 37) {
+                keysDepressed.left = false;
+            }
+            if (event.keyCode == 16) {
+                speed = 10;
+            }
+        }
+
+
+        function moveTheGuy(directions) {
+            const { up, down, left, right } = directions;
+            const maxRight = container.offsetWidth - guy.offsetWidth;
+
+            if (right) {
+                guyLeft += speed;
+                if (guyLeft >= 1825) {
+                    guyLeft = maxRight;
+                }
+                
+                guy.style.left = guyLeft + 'px';
+            }
+
+            if (down) { 
+                guyTop += speed;
+                if (guyTop >= 825) {
+                    guyTop = 825;
+                }
+                
+                guy.style.top = guyTop + 'px';
+            }
+
+            if (up) {
+                guyTop -= speed;
+                if (guyTop <= 0) {
+                    guyTop = 0;
+                }
+                guy.style.top = guyTop + 'px';
+            }
+
+            if (left) {
+                guyLeft = guyLeft - speed;
+                if (guyLeft <= 0) {
+                    guyLeft=0;
+
+                }
+                guy.style.left = guyLeft + 'px';
+            }
+
+
+        }
+
+        function anim(e) {
+            // console.log('keysDepressed: ', keysDepressed);
+            // right arrow
+            if (e.keyCode == 39) {
+                keysDepressed.right = true;
+            }
+
+            // left arrow
+            if (e.keyCode == 37) {
+                keysDepressed.left = true;
+            }
+
+            // up arrow
+            if (e.keyCode == 38) {
+                keysDepressed.up = true;
+            }
+
+            // down arrow
+            if (e.keyCode == 40) {
+                keysDepressed.down = true;
+            }
+
+
+            if (e.keyCode == 16) {
+                speed = 25;
+            }
+
+
+            moveTheGuy(keysDepressed);
+
+        }
+
+        document.onkeydown = anim;
+        document.onkeyup = resetDepressedKeys;
+
+
+
+        if (keysDepressed.down && keysDepressed.up) {
+            down = false;
+            up = false;
+        }
+
+        if (keysDepressed.left && keysDepressed.right) {
+            right = false;
+            left = false;
+        }
+
+
+
+
+
+
+    </script>
+
+
+</body>
+
+</html>
