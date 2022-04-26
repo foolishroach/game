@@ -9,6 +9,7 @@
     <style>
         #container {
             height: 90vh;
+            margin: 5vh auto;
             width: 90%;
             border: 1px solid rgb(255, 255, 255);
             position: relative;
@@ -24,6 +25,15 @@
             left: 0;
         }
 
+        #staminaBar {
+            left: 25%;
+            position: absolute;
+            top: -20px;
+            width: 50%;
+        }
+        .theMain {
+            position: relative;
+        }
         body {
             background-color: #333;
             height: 100%;
@@ -33,7 +43,7 @@
 
 <body>
 
-    <main>
+    <main class="theMain">
         <progress id="staminaBar" max="100" value="100"></progress>
         <div id="container">
 
@@ -53,7 +63,7 @@
         var staminaBar = document.getElementById('staminaBar');
         var stamina = 100;
         var maxStamina = 100;
-        var staminaCost = 5;
+        var staminaCost = 2;
         var guyLeft = 0;
         var guyTop = 0;
         var keysDepressed = {
@@ -89,6 +99,7 @@
             // shift key
             if (event.keyCode == 16) {
                 speed = defaultSpeed;
+                keysDepressed.shift = false;
             }
         }
 
