@@ -8,10 +8,11 @@
     <title>Document</title>
     <style>
         #container {
-            height: 900px;
-            width: 1900px;
-            outline: 1px solid rgb(255, 255, 255);
+            height: 90vh;
+            width: 90%;
+            border: 1px solid rgb(255, 255, 255);
             position: relative;
+            background-color: black;
         }
 
         #guy {
@@ -24,27 +25,35 @@
         }
 
         body {
-            background-color: black;
+            background-color: #333;
+            height: 100%;
         }
     </style>
 </head>
 
 <body>
-    <div id="container">
-        <div id="guy">
 
+    <main>
+        <progress id="staminaBar" max="100" value="100"></progress>
+        <div id="container">
+
+            <div id="guy">
+
+            </div>
         </div>
-    </div>
+    </main>
 
     <script>
 
+        var maxSpeed = 25;
         var speed = 10;
+        var defaultSpeed = 10;
         var guy = document.getElementById('guy');
         var container = document.getElementById('container');
+        var staminaBar = document.getElementById('staminaBar');
         var stamina = 100;
         var maxStamina = 100;
-        var staminaCost = .6;
-
+        var staminaCost = 5;
         var guyLeft = 0;
         var guyTop = 0;
         var keysDepressed = {
@@ -77,31 +86,33 @@
             if (event.keyCode == 37) {
                 keysDepressed.left = false;
             }
+            // shift key
             if (event.keyCode == 16) {
-                speed = 10;
+                speed = defaultSpeed;
             }
         }
 
 
         function moveTheGuy(directions) {
-            const { up, down, left, right } = directions;
+            const { up, down, left, right, shift } = directions;
             const maxRight = container.offsetWidth - guy.offsetWidth;
+            const maxBottom = container.offsetHeight - guy.offsetHeight;
 
             if (right) {
                 guyLeft += speed;
-                if (guyLeft >= 1825) {
+                if (guyLeft >= maxRight) {
                     guyLeft = maxRight;
                 }
-                
+
                 guy.style.left = guyLeft + 'px';
             }
 
-            if (down) { 
+            if (down) {
                 guyTop += speed;
-                if (guyTop >= 825) {
-                    guyTop = 825;
+                if (guyTop >= maxBottom) {
+                    guyTop = maxBottom;
                 }
-                
+
                 guy.style.top = guyTop + 'px';
             }
 
@@ -116,13 +127,20 @@
             if (left) {
                 guyLeft = guyLeft - speed;
                 if (guyLeft <= 0) {
-                    guyLeft=0;
+                    guyLeft = 0;
 
                 }
                 guy.style.left = guyLeft + 'px';
             }
-
-
+            if(shift){
+    if(stamina <= 0){
+                    speed = defaultSpeed;
+                } else{
+                    stamina = stamina - staminaCost;
+                    staminaBar.value = stamina;
+                    speed = maxSpeed;
+                }
+}
         }
 
         function anim(e) {
@@ -147,9 +165,9 @@
                 keysDepressed.down = true;
             }
 
-
+            // shift key
             if (e.keyCode == 16) {
-                speed = 25;
+                keysDepressed.shift = true;
             }
 
 
