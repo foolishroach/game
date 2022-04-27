@@ -31,9 +31,11 @@
             top: -20px;
             width: 50%;
         }
+
         .theMain {
             position: relative;
         }
+
         body {
             background-color: #333;
             height: 100%;
@@ -65,6 +67,7 @@
         var maxStamina = 100;
         var staminaCost = 2;
         var staminaRegeneration = 5;
+        var staminaTimer = null;
         var guyLeft = 0;
         var guyTop = 0;
         var keysDepressed = {
@@ -75,14 +78,22 @@
             shift: false
         };
 
-
-        function startRecharge(){
-            
-            if(stamina < 100){
-                  stamina =  stamina + staminaRegeneration;
-                }
+        function recharge() {
+            if (stamina <= 100) {
+                stamina = stamina + staminaRegeneration;
+                staminaBar.value = stamina;
+            }
+            else {
+                endRecharge()
+            }
         }
-        function endRecharge(){}
+        function startRecharge() {
+            staminaTimer = setInterval(recharge, 300)
+        }
+        function endRecharge() {
+
+            clearInterval(staminaTimer)
+        }
 
 
         function resetDepressedKeys(event) {
@@ -155,15 +166,15 @@
                 }
                 guy.style.left = guyLeft + 'px';
             }
-            if(shift){
-    if(stamina <= 0){
+            if (shift) {
+                if (stamina <= 0) {
                     speed = defaultSpeed;
-                } else{
+                } else {
                     stamina = stamina - staminaCost;
                     staminaBar.value = stamina;
                     speed = maxSpeed;
                 }
-}
+            }
         }
 
         function anim(e) {
@@ -191,6 +202,7 @@
             // shift key
             if (e.keyCode == 16) {
                 keysDepressed.shift = true;
+                endRecharge()
             }
             moveTheGuy(keysDepressed);
 
