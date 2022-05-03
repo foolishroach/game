@@ -36,11 +36,6 @@
             width: 50%;
         }
 
-        .thing {
-            height: 40px;
-            width: 40px;
-            background-color: rgb(0, 255, 0);
-        }
         .gate {
             position: absolute;
             top: 45%;
@@ -121,15 +116,6 @@
             clearInterval(staminaTimer)
         }
 
-        function spawnStuff(quantity=3){
-            // console.log('goor')
-            // var elements = document.createElement('div');
-            for(var i = 0; i < quantity; i += 1){
-                var thing = document.createElement('div');
-                thing.className ='thing'
-                container.append(thing)
-            }
-        }
 
         function resetDepressedKeys(event) {
             if (event.keyCode == 68) {
@@ -160,6 +146,7 @@
         function elementsOverlap(el1, el2) {
             const domRect1 = el1.getBoundingClientRect();
             const domRect2 = el2.getBoundingClientRect();
+
             return !(
                 domRect1.top > domRect2.bottom ||
                 domRect1.right < domRect2.left ||
@@ -261,7 +248,6 @@
         document.onkeydown = anim;
         document.onkeyup = resetDepressedKeys;
 
-        spawnStuff(19);
 
 
         if (keysDepressed.down && keysDepressed.up) {
