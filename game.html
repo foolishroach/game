@@ -40,7 +40,9 @@
             height: 40px;
             width: 40px;
             background-color: rgb(0, 255, 0);
+            position: absolute;
         }
+
         .gate {
             position: absolute;
             top: 45%;
@@ -85,7 +87,7 @@
             top: gate.offsetTop,
             left: gate.offsetLeft,
             height: gate.offsetHeight,
-        }
+        };
 
         var container = document.getElementById('container');
         var staminaBar = document.getElementById('staminaBar');
@@ -110,15 +112,14 @@
                 staminaBar.value = stamina;
             }
             else {
-                endRecharge()
+                endRecharge();
             }
         }
         function startRecharge() {
-            staminaTimer = setInterval(recharge, 6)
+            staminaTimer = setInterval(recharge, 6);
         }
         function endRecharge() {
-
-            clearInterval(staminaTimer)
+            clearInterval(staminaTimer);
         }
 
         function getRandomInt(min, max) {
@@ -127,15 +128,26 @@
             return Math.floor(Math.random() * (max - min + 1)) + min;
         }
 
-        function spawnStuff(quantity=3){
+        function spawnStuff(quantity = 3) {
             // console.log('goor')
             // var elements = document.createElement('div');
-            for(var i = 0; i < quantity; i += 1){
-                var thing = document.createElement('div');
-                thing.className ='thing';
-                thing.style.left = 0;
-                container.append(thing)
+            for (var i = 0; i < quantity; i += 1) {
+                const thing = document.createElement('div');
+                thing.className = 'thing';
+                let xpos = getRandomInt(2, 9) * 10;
+                let ypos = getRandomInt(2, 9) * 10;
+                thing.style.left = xpos + '%';
+                thing.style.top = ypos + '%';
+                container.append(thing);
             }
+        }
+
+        function clearStuff() {
+            const things = document.querySelectorAll('.thing');
+            things.forEach((thing) => {
+                thing.remove();
+            });
+
         }
 
         function resetDepressedKeys(event) {
@@ -228,8 +240,9 @@
                 }
             }
 
-            if(isGuyTouchingGate()){
-                console.log('woof')
+            if (isGuyTouchingGate()) {
+                console.log('woof');
+                clearStuff();
             }
         }
 
@@ -258,7 +271,7 @@
             // shift key
             if (e.keyCode == 16) {
                 keysDepressed.shift = true;
-                endRecharge()
+                endRecharge();
             }
 
             moveTheGuy(keysDepressed);
@@ -268,7 +281,7 @@
         document.onkeydown = anim;
         document.onkeyup = resetDepressedKeys;
 
-        spawnStuff(19);
+        spawnStuff(7);
 
 
         if (keysDepressed.down && keysDepressed.up) {
