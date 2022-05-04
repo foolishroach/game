@@ -121,12 +121,19 @@
             clearInterval(staminaTimer)
         }
 
+        function getRandomInt(min, max) {
+            min = Math.ceil(min);
+            max = Math.floor(max);
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
         function spawnStuff(quantity=3){
             // console.log('goor')
             // var elements = document.createElement('div');
             for(var i = 0; i < quantity; i += 1){
                 var thing = document.createElement('div');
-                thing.className ='thing'
+                thing.className ='thing';
+                thing.style.left = 0;
                 container.append(thing)
             }
         }
